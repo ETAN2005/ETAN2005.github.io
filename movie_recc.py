@@ -1,15 +1,15 @@
 import pandas as pd 
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from flask import Flask, request, render_template
 
 #variables being used 
 user_movie = "Avatar"
-cv = CountVectorizer()
-movie_data = pd.read_csv('movie_dataset.csv')
+cv = TfidfVectorizer() #CountVectorizer()
+movie_data = pd.read_csv('movie.csv')
 #processing 
 movie_features = movie_data[['keywords','cast','genres','director', 'tagline']]
-movie_data.fillna('',inplace=True)
 #merging into one column 
 movie_data['combined'] = movie_data.apply(lambda row: ' '.join(row.astype(str)), axis=1)
 
