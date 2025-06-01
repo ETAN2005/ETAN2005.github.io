@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Movie Recommendation</title>
+    </head>
+    <body>
+        <form action="/submit" method="POST">
+            <label for="user_movie">Movie:</label>
+            <input type="text" name="user_movie" placeholder="Enter a movie">
+            <button type="submit">Submit</button>
+        </form>
+        {% if movie %}
+            <h2>Recommendtions for "{{ movie }}":
+                <ul>
+                    {% for rec in recommended %}
+                        <li>{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+        {% endif %}
+            </h2>
+    </body>
+</html>
