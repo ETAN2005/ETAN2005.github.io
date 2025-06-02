@@ -1,6 +1,6 @@
 body{
     margin: 2em;
-
+    text-align: center;
 }
 h1{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;	
@@ -9,18 +9,37 @@ h1{
     font-size: 50px;
 
 }
+hr{
+    display: block;
+    margin-top:0.5em;
+
+}
 form{
     margin:auto;
     text-align: center;
     font-size:25px;
 }
 h2{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin:2em;
     text-align: center;
 }
-h3{
-    text-align:center; 
-    font-weight: normal;
+input[type="text"]{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', 
+    Arial, sans-serif;
+    font-size: 25px;
+
+}
+input::placeholder{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', 
+    Arial, sans-serif;
+    font-size: 25px; 
+    opacity: 0.5; 
+}
+ul.no-bullets{
+    list-style-type: none;
+    /* padding: 0; */
+    /* margin: 0; */ 
 }
 p{
     text-align:center; 

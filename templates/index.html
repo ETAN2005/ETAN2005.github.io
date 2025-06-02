@@ -8,13 +8,13 @@
     </head>
     <body style="background-color:beige;">
         <h1>Movie Recommendations</h1>
-	<hr style="width:25%;text-align:left;margin-left:0;">
+	<hr style="height:2px;border-width:1px;margin-left:0;">
         <form action="/submit" method="POST">
             <label for="user_movie">Movie:</label>
             <input type="text" name="user_movie" placeholder="Enter a movie">
             <button type="submit">Submit</button>
             {% if movie %}
-                <h2>Recommendations for "{{ movie }}":</h2>
+                <h2>Recommendations for {{ movie }}:</h2>
                     <ul>
                         {% for rec in recommended %}
                             <li>{{ rec }}</li>
