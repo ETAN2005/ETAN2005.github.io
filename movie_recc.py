@@ -60,7 +60,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('movie_recommendations.html')
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
@@ -68,7 +68,7 @@ def submit_form():
     user_movie_copy = user_movie.strip().lower()
     title_matches = movie_data[movie_data['title'].str.lower().str.strip()==user_movie_copy]
     if title_matches.empty:
-        return render_template('movie_recommendations.html', movie=user_movie, recommended=["Movie not found."])
+        return render_template('index.html', movie=user_movie, recommended=["Movie not found."])
     else:
         movie_index = title_matches.iloc[0].name
         similar_movies = list(enumerate(similarity[movie_index])) # gives the list of tuples
@@ -77,7 +77,7 @@ def submit_form():
         recommended_df = get_recommended(movie_index).tolist()
         recommended = recommended_df
 
-        return render_template('movie_recommendations.html', movie=user_movie, recommended=recommended)
+        return render_template('index.html', movie=user_movie, recommended=recommended)
 
 
 if __name__=='__main__':
