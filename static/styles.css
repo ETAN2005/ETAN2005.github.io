@@ -13,6 +13,7 @@ body{
     margin: 2em;
     text-align: center;
 }
+/*
 h1::before{
     display: block;
     content: "";
@@ -22,18 +23,22 @@ h1::before{
     transform: skewX(21.5deg);
     box-shadow: 0 0 30px black;
 }
+*/
 h1{
     font-family: 'BebasNeueRegular', sans-serif; 
+    /*
     height: 15rem;
     width: 3rem; 
     border-left: 3rem solid #e50914; 
     border-right: 3rem solid #e50914; 
     position: relative; 
+    */
     margin: auto;
     text-align: center;
     font-size: 50px;
 
 }
+/*
 h1::after{
     content: "";
     width: 15rem; 
@@ -46,6 +51,7 @@ h1::after{
     top: 98%; 
 
 }
+*/
 hr{
     display: block;
     margin-top:0.5em;
@@ -76,10 +82,9 @@ input::placeholder{
     font-size: 25px; 
     opacity: 0.5; 
 }
-ul.no-bullets{
+#otis li{
     list-style-type: none;
-    padding: 0;
-    margin: 0;
+    font-family: monospace;
 }
 button{
     font-family: monospace;
