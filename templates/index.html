@@ -15,9 +15,9 @@
             <button type="submit">Submit</button>
             {% if movie %}
                 <h2>Recommendations for {{ movie }}:</h2>
-                    <ul>
+                    <ul style="list-style-type: none;">
                         {% for rec in recommended %}
-                            <li>{{ rec }}</li>
+                            <li style="list-style-type: none;">{{ rec }}</li>
                         {% endfor %}
                     </ul>
             {% endif %}

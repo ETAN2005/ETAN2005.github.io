@@ -82,8 +82,7 @@ input::placeholder{
     font-size: 25px; 
     opacity: 0.5; 
 }
-#otis li{
-    list-style-type: none;
+li{
     font-family: monospace;
 }
 button{
