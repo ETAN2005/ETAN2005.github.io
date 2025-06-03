@@ -14,7 +14,7 @@
             <input type="text" name="user_movie" placeholder="Enter a movie">
             <button type="submit">Submit</button>
             {% if movie %}
-                <h2>Recommendations for {{ movie }}:</h2>
+                <h2>Recommendations for '{{ movie }}':</h2>
                     <ul style="list-style-type: none;">
                         {% for rec in recommended %}
                             <li style="list-style-type: none;">{{ rec }}</li>
