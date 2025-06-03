@@ -83,10 +83,11 @@ def submit_form():
     user_movie = request.form.get('user_movie')
     user_movie_copy = user_movie.strip().lower()
     title_match = find_movie(user_movie_copy)
-    add_to_history(user_movie)
-    if title_match==None:
-        return render_template('index.html', movie=user_movie, recommended=["Movie not found."])
+    
+    if title_match==None or title_match[1]<80:
+        return render_template('index.html', movie=user_movie, recommended=["Movie not found."],found=0)
     else:
+        add_to_history(user_movie)
         movie_index = title_match[-1]
     
         recommended_df = get_recommended(movie_index).tolist()
@@ -94,7 +95,7 @@ def submit_form():
         if title_match[0] in recommended:
             recommended.remove(title_match[0])
         
-        return render_template('index.html', movie=user_movie, recommended=recommended)
+        return render_template('index.html', movie=user_movie, recommended=recommended,found=1)
 
 @app.route('/history', methods=['GET'])
 def history():
