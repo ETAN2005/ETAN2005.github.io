@@ -10,9 +10,10 @@ from fuzzywuzzy import process
 #import requests
 
 #variables being used 
-user_movie = "Avatar"
 cv = TfidfVectorizer() #CountVectorizer()
 movie_data = pd.read_csv('movie.csv')
+
+recommendation_cache = {} # a dictionary
 #processing 
 movie_features = movie_data[['keywords','cast','genres','director', 'tagline']]
 #merging into one column 
@@ -36,6 +37,7 @@ def weighted_rating(x, mean_vote_data=mean_vote_data, min_votes=min_votes):
 def get_recommended(movie_index):
     alpha = 0.7 #weight for similarity 
     beta = 0.3  #weight for popularity 
+
     movie_data_copy = movie_data.copy()
     movie_data_copy['popularity_score'] = movie_data_copy.apply(weighted_rating, axis=1)
 
@@ -60,7 +62,6 @@ def get_recommended(movie_index):
 def find_movie(title):
     movie_data_copy = movie_data.copy()
     movie_data_copy['title']=movie_data_copy['title'].str.lower().str.strip()
-
     choices = list(zip(movie_data_copy['title'],movie_data_copy.index))
 
     return process.extractOne(title,choices,scorer=fuzz.WRatio)
@@ -82,20 +83,26 @@ def index():
 def submit_form():
     user_movie = request.form.get('user_movie')
     user_movie_copy = user_movie.strip().lower()
-    title_match = find_movie(user_movie_copy)
     
-    if title_match==None or title_match[1]<80:
-        return render_template('index.html', movie=user_movie, recommended=["Movie not found."],found=0)
-    else:
-        add_to_history(user_movie)
-        movie_index = title_match[-1]
     
-        recommended_df = get_recommended(movie_index).tolist()
-        recommended = recommended_df
-        if title_match[0] in recommended:
-            recommended.remove(title_match[0])
-        
+    if user_movie_copy in recommendation_cache:
+        recommended = recommendation_cache[user_movie_copy]
         return render_template('index.html', movie=user_movie, recommended=recommended,found=1)
+    else:
+        title_match = find_movie(user_movie_copy)
+        if title_match==None or title_match[1]<75:
+            return render_template('index.html', movie=user_movie, recommended=["Movie not found."],found=0)
+        else:
+            add_to_history(user_movie)
+            movie_index = title_match[-1]
+        
+            recommended_df = get_recommended(movie_index).tolist()
+            recommended = recommended_df
+            if title_match[0] in recommended:
+                recommended.remove(title_match[0])
+            
+            recommendation_cache[user_movie_copy] = recommended
+            return render_template('index.html', movie=user_movie, recommended=recommended,found=1)
 
 @app.route('/history', methods=['GET'])
 def history():

@@ -28,11 +28,11 @@
             <button type="submit">View History</button>
             {% if history %}
                 <h2>History</h2>
-                    <ul style="list-style-type: none;">
-                        {% for hist in history %}
-                            <li style="list-style-type: none;">{{ hist }}</li>
-                        {% endfor %}
-                    </ul>
+                <ul style="list-style-type: none;">
+                    {% for hist in history %}
+                        <li style="list-style-type: none;">{{ hist }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
         </form>
         <form action="/delete_history" method="POST">
