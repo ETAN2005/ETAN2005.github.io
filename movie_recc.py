@@ -1,9 +1,10 @@
+import os
 import pandas as pd 
 import numpy as np 
-from sklearn.feature_extraction.text import CountVectorizer
+#from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from flask import Flask, request, render_template
+from flask import Flask, redirect, request, render_template, session
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process 
 #import requests
@@ -64,9 +65,14 @@ def find_movie(title):
 
     return process.extractOne(title,choices,scorer=fuzz.WRatio)
 
+def add_to_history(title):
+    if 'history' not in session:
+        session['history'] = []
+    session['history'].append(title)
 
 #getting input from user in (back-end)
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 @app.route('/')
 def index():
@@ -77,7 +83,7 @@ def submit_form():
     user_movie = request.form.get('user_movie')
     user_movie_copy = user_movie.strip().lower()
     title_match = find_movie(user_movie_copy)
-
+    add_to_history(user_movie)
     if title_match==None:
         return render_template('index.html', movie=user_movie, recommended=["Movie not found."])
     else:
@@ -90,6 +96,15 @@ def submit_form():
         
         return render_template('index.html', movie=user_movie, recommended=recommended)
 
+@app.route('/history', methods=['GET'])
+def history():
+    user_history = session.get('history',[])
+    return render_template('index.html', history=user_history)
+
+@app.route('/delete_history', methods=['POST'])
+def delete_history():
+    session.pop('history', None)
+    return redirect('/')
 
 if __name__=='__main__':
     app.run(debug=True)
